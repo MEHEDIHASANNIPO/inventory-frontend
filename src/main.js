@@ -10,6 +10,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 
+/** VeeValidation Library */
+import VeeValidatePlugin from '@/utilis/validation'
+
 import App from './App.vue'
 import router from './router'
 
@@ -21,5 +24,8 @@ app.use(router)
 /** FontAwesome Icon */
 library.add(fas, fab, far)
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+/** VeeValidate Plugin */
+app.use(VeeValidatePlugin)
 
 app.mount('#app')
