@@ -13,6 +13,10 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 /** VeeValidation Library */
 import VeeValidatePlugin from '@/utilis/validation'
 
+/** SweetAlert Library */
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import App from './App.vue'
 import router from './router'
 
@@ -27,5 +31,11 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 
 /** VeeValidate Plugin */
 app.use(VeeValidatePlugin)
+
+/** SweetAlert */
+app.use(VueSweetalert2, {
+  confirmButtonColor: '#43b9b2',
+  cancelButtonColor: '#f43f5e',
+});
 
 app.mount('#app')
