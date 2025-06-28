@@ -1,35 +1,23 @@
-@import './base.css';
+@import "tailwindcss";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+
+@theme {
+    /* Font Family */
+    --font-outfit: "Outfit", sans-serif;
+    --font-inter: "Inter", sans-serif;
+
+    /* Color */
+    --color-mainColor: #43b9b2;
+    --color-secondaryColor: #4169E1;
+    --color-lightColor: #FFD6B2;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+/* Container */
+.container {
+    @apply 2xl:max-w-[1320px] xl:max-w-[1200px] lg:max-w-[992px] md:max-w-[768px] sm:max-w-[576px] max-w-[375px];
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+body {
+    @apply font-inter;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-}
