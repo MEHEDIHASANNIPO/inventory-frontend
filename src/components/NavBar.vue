@@ -15,7 +15,7 @@ const toggleMenu = (menuName) => {
 <template>
     <!-- Navbar Start -->
     <div class="min-w-72 min-h-screen h-full origin-left fixed top-0 lg:translate-x-0 left-0 z-10 bg-white shadow-lg text-gray-50 py-8 px-9 transition-all ease-in-out duration-500 overflow-y-auto" :class="!navValue ? '-translate-x-[150%]' : ''">
-        <span class="block lg:hidden absolute top-5 right-5 cursor-pointer" @click="navValue = false"><font-awesome-icon :icon="['fas', 'xmark']" class="text-lg" /></span>
+        <span class="block lg:hidden absolute top-5 right-5 cursor-pointer text-mainColor" @click="navValue = false"><font-awesome-icon :icon="['fas', 'circle-xmark']" class="text-lg text-mainColor" /></span>
         <h2 class="text-center text-mainColor text-2xl font-bold">MHN <font-awesome-icon :icon="['fas', 'bolt']" class="text-lightColor text-3xl" /> Panel</h2>
 
         <!-- Dashboard -->
