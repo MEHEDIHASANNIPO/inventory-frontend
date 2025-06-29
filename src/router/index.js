@@ -31,7 +31,26 @@ const router = createRouter({
         { path: '/login', name: 'login', component: () => import('@/views/Auth/Login.vue') },
       ]
     },
+
+    /** 404 Not Found Route */
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/views/NotFound.vue')
+    }
   ],
+})
+
+
+// Middleware
+router.beforeEach((to, from, next) => {
+  if(to.meta.requiresAuth && !localStorage.getItem('token')) {
+    next({name: 'login'});
+  } else if (to.meta.isGuest && localStorage.getItem('token')) {
+    next({name: 'dashboard'});
+  } else {
+    next()
+  }
 })
 
 export default router

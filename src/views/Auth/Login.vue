@@ -1,6 +1,13 @@
 <script setup>
 /** All Library Import */
-import { ref, reactive } from 'vue';
+import { ref, reactive, inject } from 'vue';
+import { useLoginStore } from '@/stores/login'
+import { useRouter } from 'vue-router'
+
+/** All Instance */
+const swal = inject('$swal');
+const loginStore = useLoginStore();
+const router = useRouter();
 
 /** All Variables */
 const formData = reactive({
@@ -17,6 +24,29 @@ const showPassword = ref(false)
 const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
+
+const login = () => {
+    loginStore.login(formData, (status) => {
+        if(status === 'success') {
+            swal({
+                icon: 'success',
+                timer: 1000,
+                title: loginStore.message
+            })
+
+            router.push({ name: 'dashboard' })
+        } else {
+            swal({
+                icon: 'error',
+                timer: 1000,
+                title: loginStore.message
+            })
+
+            router.push({ name: 'login' })
+        }
+    })
+}
+
 </script>
 
 <template>
@@ -27,7 +57,7 @@ const togglePassword = () => {
                 <p class="text-sm text-gray-500 font-medium text-center my-2">Welcome Back!</p>
 
                 <!-- Login Form -->
-                <vee-form :validation-schema="schema" validate-on-input>
+                <vee-form :validation-schema="schema" @submit="login" validate-on-input>
                     <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-bold text-gray-700 mb-1.5">Email <span class="text-rose-400">*</span></label>
@@ -56,7 +86,7 @@ const togglePassword = () => {
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="bg-mainColor text-white block w-full border-0 py-1 px-4 text-lg font-semibold font-outfit rounded-md">Login</button>
+                    <button type="submit" class="bg-mainColor text-white block w-full border-0 py-1 px-4 text-lg font-semibold font-outfit rounded-md cursor-pointer">Login</button>
                 </vee-form>
             </div>
         </div>
