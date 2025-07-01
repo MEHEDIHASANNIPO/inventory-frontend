@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
+import { useSystemSettingStore } from '@/stores/systemsetting'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,10 @@ const router = createRouter({
       children: [
 
         // Dashboard Route
-        { path: '/dashboard', name: 'dashboard', component: () => import('@/views/Dashboard.vue') },
+        { path: '/dashboard', name: 'dashboard', component: () => import('@/views/Dashboard.vue'), meta: { title: 'Dashboard' } },
+
+        // System Setting Route
+        { path: '/system-setting', name: 'systemSetting', component: () => import('@/views/SystemSetting/SystemSetting.vue'), meta: { title: 'General Setting' } },
       ]
     },
 
@@ -49,6 +53,15 @@ router.beforeEach((to, from, next) => {
   } else if (to.meta.isGuest && localStorage.getItem('token')) {
     next({name: 'dashboard'});
   } else {
+    // Dynamic Title
+    const systemSettingStore = useSystemSettingStore();
+    if(!systemSettingStore.loaded) {
+      systemSettingStore.systemSettingInfo();
+    }
+    const siteName = systemSettingStore.siteName || 'MHN Inventory';
+    const pageTitle = to.meta.title ? `${to.meta.title} | ${siteName}` : siteName;
+    document.title = pageTitle;
+
     next()
   }
 })

@@ -26,9 +26,30 @@ const toggleMenu = (menuName) => {
 
             <!-- General Setting -->
             <li>
-                <router-link @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                <router-link :to="{ name: 'systemSetting' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'gear']" /> General Setting</span>
                 </router-link>
+            </li>
+
+            <!-- Module Management -->
+            <li>
+                <router-link @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'box']" /> Module Management</span>
+                </router-link>
+            </li>
+
+            <!-- Permission & Rule -->
+            <li @click="toggleMenu('menu1')">
+                <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'lock']" /> Permission & Rule</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                </a>
+                <transition name="slide">
+                
+                    <ul v-show="activeMenu === 'menu1'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Permissions</router-link></li>
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Rules</router-link></li>
+                    </ul>   
+                </transition>
             </li>
 
             <!-- POS -->
@@ -39,23 +60,9 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- Category Management -->
-            <li @click="toggleMenu('menu1')">
-                <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'folder-open']" /> Category Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
-                </a>
-                <transition name="slide">
-                
-                    <ul v-show="activeMenu === 'menu1'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
-                    </ul>   
-                </transition>
-            </li>
-
-            <!-- Brand Management -->
             <li @click="toggleMenu('menu2')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'tag']" /> Brand Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'folder-open']" /> Category Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -66,10 +73,10 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- WareHouse Management -->
+            <!-- Brand Management -->
             <li @click="toggleMenu('menu3')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'warehouse']" /> WareHouse Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'tag']" /> Brand Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -80,10 +87,10 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- Supplier Management -->
+            <!-- WareHouse Management -->
             <li @click="toggleMenu('menu4')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'truck-field']" /> Supplier Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'warehouse']" /> WareHouse Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -94,10 +101,10 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- Product Management -->
+            <!-- Supplier Management -->
             <li @click="toggleMenu('menu5')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'cart-shopping']" /> Product Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'truck-field']" /> Supplier Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -108,14 +115,28 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- Expense Management -->
+            <!-- Product Management -->
             <li @click="toggleMenu('menu6')">
+                <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'cart-shopping']" /> Product Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                </a>
+                <transition name="slide">
+                
+                    <ul v-show="activeMenu === 'menu6'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
+                    </ul>   
+                </transition>
+            </li>
+
+            <!-- Expense Management -->
+            <li @click="toggleMenu('menu7')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'sack-dollar']" /> Expense Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
-                    <ul v-show="activeMenu === 'menu6'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
+                    <ul v-show="activeMenu === 'menu7'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
                         <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
                         <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>   
@@ -130,23 +151,9 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- Employee Management -->
-            <li @click="toggleMenu('menu7')">
-                <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'user-tie']" /> Employee Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
-                </a>
-                <transition name="slide">
-                
-                    <ul v-show="activeMenu === 'menu7'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
-                    </ul>   
-                </transition>
-            </li>
-
-            <!-- Salary Management -->
             <li @click="toggleMenu('menu8')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'dollar-sign']" /> Salary Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'user-tie']" /> Employee Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -157,10 +164,10 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- Customer Management -->
+            <!-- Salary Management -->
             <li @click="toggleMenu('menu9')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
-                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'users']" /> Customer Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'dollar-sign']" /> Salary Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
@@ -171,14 +178,28 @@ const toggleMenu = (menuName) => {
                 </transition>
             </li>
 
-            <!-- Transfer Management -->
+            <!-- Customer Management -->
             <li @click="toggleMenu('menu10')">
+                <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'users']" /> Customer Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
+                </a>
+                <transition name="slide">
+                
+                    <ul v-show="activeMenu === 'menu10'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
+                    </ul>   
+                </transition>
+            </li>
+
+            <!-- Transfer Management -->
+            <li @click="toggleMenu('menu11')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'shuffle']" /> Transfer Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
-                    <ul v-show="activeMenu === 'menu10'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
+                    <ul v-show="activeMenu === 'menu11'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
                         <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
                         <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>   
