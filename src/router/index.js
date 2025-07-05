@@ -20,6 +20,12 @@ const router = createRouter({
 
         // System Setting Route
         { path: '/system-setting', name: 'systemSetting', component: () => import('@/views/SystemSetting/SystemSetting.vue'), meta: { title: 'General Setting' } },
+
+        // Profile Setting Route
+        { path: '/profile-setting', name: 'profileSetting', component: () => import('@/views/ProfileSetting/ProfileSetting.vue'), meta: { title: 'Profile Setting' } },
+
+        // Password Change Route
+        { path: '/change-password', name: 'changePassword', component: () => import('@/views/ProfileSetting/ChangePassword.vue'), meta: { title: 'Change Password' } },
       ]
     },
 
@@ -32,7 +38,7 @@ const router = createRouter({
       children: [
 
         // Login Route
-        { path: '/login', name: 'login', component: () => import('@/views/Auth/Login.vue') },
+        { path: '/login', name: 'login', component: () => import('@/views/Auth/Login.vue'), meta: { title: 'Login' } },
       ]
     },
 
@@ -40,7 +46,8 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('@/views/NotFound.vue')
+      component: () => import('@/views/NotFound.vue'),
+      meta: { title: '404 Not Found' }
     }
   ],
 })

@@ -17,8 +17,32 @@ import VeeValidatePlugin from '@/utilis/validation'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+/** Filepond Library */
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
+import * as FilePond from 'filepond'
+import vueFilePond from 'vue-filepond'
+
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+
 import App from './App.vue'
 import router from './router'
+
+/** Filepond Instance */
+FilePond.registerPlugin(
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType,
+  FilePondPluginFileValidateSize
+)
+
+const FilePondComponent = vueFilePond(
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType,
+  FilePondPluginFileValidateSize
+)
 
 const app = createApp(App)
 
@@ -37,5 +61,8 @@ app.use(VueSweetalert2, {
   confirmButtonColor: '#43b9b2',
   cancelButtonColor: '#f43f5e',
 });
+
+/** Filepond */
+app.component('FilePond', FilePondComponent)
 
 app.mount('#app')
