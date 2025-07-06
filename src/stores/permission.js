@@ -32,9 +32,9 @@ export const usePermissionStore = defineStore('permission', {
 
   actions: {
     // All List
-    async getAllModules() {
+    async getAllPermissions() {
       try {
-        const { data } = await inventoryAxiosClient.get('/all-modules');
+        const { data } = await inventoryAxiosClient.get('/all-permissions');
 
         this.rawData = data;
         this.permissions = data.data;
