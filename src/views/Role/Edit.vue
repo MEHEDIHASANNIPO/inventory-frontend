@@ -102,7 +102,7 @@ onMounted(() => {
 
 
             <button type="submit" class="bg-mainColor text-white py-2 px-5 mt-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
-                Create
+                Update
             </button>
         </vee-form>
     </div>
