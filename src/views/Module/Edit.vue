@@ -21,7 +21,7 @@ const schema = reactive({
 })
 
 /** All Methods */
-const Delete = () => {
+const UpdateModule = () => {
     moduleStore.updateModule(moduleStore.editFormData, route.params.id);
 }
 
