@@ -31,6 +31,14 @@ const StoreModule = () => {
 
 <template>
     <div class="bg-white rounded-lg p-5 shadow-md">
+        <!-- Button -->
+        <div class="flex justify-end mb-4">
+            <router-link :to="{ name: 'modules' }" class="bg-rose-500 hover:bg-rose-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
+                Back To List
+            </router-link>
+        </div>
+        
+        <!-- Form -->
         <vee-form :validation-schema="schema" @submit="StoreModule" validate-on-input>
             <!-- Module Name -->
             <div>
