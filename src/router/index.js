@@ -26,6 +26,11 @@ const router = createRouter({
 
         // Password Change Route
         { path: '/change-password', name: 'changePassword', component: () => import('@/views/ProfileSetting/ChangePassword.vue'), meta: { title: 'Change Password' } },
+
+        // Module Management Routes
+        { path: '/modules', name: 'modules', component: () => import('@/views/Module/Index.vue'), meta: { title: 'Module List' } },
+        { path: '/module/create', name: 'moduleCreate', component: () => import('@/views/Module/Create.vue'), meta: { title: 'Create Module' } },
+        { path: '/module/edit/:id', name: 'moduleEdit', component: () => import('@/views/Module/Edit.vue'), meta: { title: 'Edit Module' } },
       ]
     },
 

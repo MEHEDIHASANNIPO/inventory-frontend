@@ -33,7 +33,7 @@ const toggleMenu = (menuName) => {
 
             <!-- Module Management -->
             <li>
-                <router-link @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                <router-link :to="{ name: 'modules' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'box']" /> Module Management</span>
                 </router-link>
             </li>

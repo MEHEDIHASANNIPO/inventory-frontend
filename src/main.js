@@ -28,6 +28,10 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 
+/** Vue Pagination Library */
+import Vpagination from '@hennge/vue3-pagination';
+import '@hennge/vue3-pagination/dist/vue3-pagination.css';
+
 import App from './App.vue'
 import router from './router'
 
@@ -64,5 +68,8 @@ app.use(VueSweetalert2, {
 
 /** Filepond */
 app.component('FilePond', FilePondComponent)
+
+/** Vue Pagination */
+app.component('v-pagination', Vpagination)
 
 app.mount('#app')
