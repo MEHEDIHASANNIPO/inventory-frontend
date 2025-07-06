@@ -46,7 +46,7 @@ const toggleMenu = (menuName) => {
                 <transition name="slide">
                 
                     <ul v-show="activeMenu === 'menu1'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Permissions</router-link></li>
+                        <li><router-link :to="{ name: 'permissions' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Permissions</router-link></li>
                         <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Rules</router-link></li>
                     </ul>   
                 </transition>
