@@ -48,7 +48,7 @@ onMounted(() => {
                     @updatefiles="profileSettingStore.uploadFile"
                 />
 
-                <img :src="profileSettingStore.profileIamge" class="w-16 h-16" alt="">
+                <img :src="profileSettingStore.profileIamge" class="w-16 h-16" alt="" v-show="profileSettingStore.profileIamge">
             </div>
             <!-- Name -->
             <div class="mb-5">

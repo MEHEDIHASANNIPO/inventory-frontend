@@ -24,7 +24,7 @@ export const useProfileSettingStore = defineStore('profilesetting', {
   }),
 
   getters: {
-    profileIamge: (state) => config.inventoryApiHost + state.image
+    profileIamge: (state) => state.image ? config.inventoryApiHost + state.image : null
   },
 
   actions: {

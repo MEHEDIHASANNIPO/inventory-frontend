@@ -36,6 +36,11 @@ const router = createRouter({
         { path: '/permissions', name: 'permissions', component: () => import('@/views/Permission/Index.vue'), meta: { title: 'Permission List' } },
         { path: '/permission/create', name: 'permissionCreate', component: () => import('@/views/Permission/Create.vue'), meta: { title: 'Create Permission' } },
         { path: '/permission/edit/:id', name: 'permissionEdit', component: () => import('@/views/Permission/Edit.vue'), meta: { title: 'Edit Permission' } },
+
+        // Role Management Routes
+        { path: '/roles', name: 'roles', component: () => import('@/views/Role/Index.vue'), meta: { title: 'Role List' } },
+        { path: '/role/create', name: 'roleCreate', component: () => import('@/views/Role/Create.vue'), meta: { title: 'Create Role' } },
+        { path: '/role/edit/:id', name: 'roleEdit', component: () => import('@/views/Role/Edit.vue'), meta: { title: 'Edit Role' } },
       ]
     },
 

@@ -46,7 +46,7 @@ onMounted(() => {
     <!-- Profile -->
     <div class="flex items-center gap-2 cursor-pointer relative" @click="showProfile">
         <div class="w-9 h-9 rounded-full">
-            <img class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-700" :src="profileSettingStore.profileIamge" :alt="userName" />
+            <img class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-700" :src="profileSettingStore.profileIamge ?? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'" :alt="userName" />
         </div>
         <div class="hidden lg:block text-sm text-gray-700">
             <p><span class="font-medium">Welcome!</span> <span class="font-semibold">{{ userName }}</span></p>
