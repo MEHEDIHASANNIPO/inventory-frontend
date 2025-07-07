@@ -6,6 +6,7 @@ export const useLoginStore = defineStore('login', {
   state: () => ({
     token: localStorage.getItem('token') || 0,
     username: localStorage.getItem('user') || 0,
+    permissions: [],
     errors: [],
     message: [],
   }),
@@ -13,6 +14,7 @@ export const useLoginStore = defineStore('login', {
   getters: {
     getToken: (state) => state.token,
     getUsername: (state) => state.username,
+    getPermissions: (state) => state.permissions,
   },
 
   actions: {
@@ -24,6 +26,10 @@ export const useLoginStore = defineStore('login', {
     setUsername(username) {
       this.username = username;
       localStorage.setItem('user', username);
+    },
+
+    setPermissions(permissions) {
+      this.permissions = permissions;
     },
 
     removeToken: () => localStorage.removeItem('token'),
@@ -47,6 +53,18 @@ export const useLoginStore = defineStore('login', {
         this.removeUsername();
         this.message = this.errors.message;
         callback(error);
+      }
+    },
+
+    async fetchPermissions() {
+      try {
+        const { data } = await inventoryAxiosClient.get('/user-permissions');
+        
+        this.setPermissions(data.data);
+      } catch (error) {
+        console.error('User fetch error', error);
+        this.removeToken();
+        this.removeUsername();
       }
     }
   }

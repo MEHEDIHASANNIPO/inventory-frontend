@@ -2,6 +2,7 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { useLoginStore } from '@/stores/login'
 
 /** FontAwesome Library */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -32,6 +33,10 @@ import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import Vpagination from '@hennge/vue3-pagination';
 import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 
+/** Casl Library */
+import { abilitiesPlugin } from '@casl/vue';
+import { defineAbilitiesFromSlugs } from '@/utilis/ability';
+
 import App from './App.vue'
 import router from './router'
 
@@ -51,6 +56,16 @@ const FilePondComponent = vueFilePond(
 const app = createApp(App)
 
 app.use(createPinia())
+
+/** Casl */
+const loginStore = useLoginStore();
+if (loginStore.getToken) {
+  await loginStore.fetchPermissions();
+}
+
+const ability = defineAbilitiesFromSlugs(loginStore.getPermissions);
+app.use(abilitiesPlugin, ability, { useGlobalProperties: true});
+
 app.use(router)
 
 /** FontAwesome Icon */

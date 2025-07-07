@@ -25,7 +25,7 @@ const toggleMenu = (menuName) => {
         <ul class="space-y-6" id="mhnNav">
 
             <!-- General Setting -->
-            <li>
+            <li v-if="$can('general', 'Setting')">
                 <router-link :to="{ name: 'systemSetting' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'gear']" /> General Setting</span>
                 </router-link>
@@ -33,21 +33,21 @@ const toggleMenu = (menuName) => {
 
             <!-- Module Management -->
             <li>
-                <router-link :to="{ name: 'modules' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                <router-link v-if="$can('index', 'Module')" :to="{ name: 'modules' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'box']" /> Module Management</span>
                 </router-link>
             </li>
 
             <!-- Permission & Rule -->
-            <li @click="toggleMenu('menu1')">
+            <li v-if="$can('index', 'Permission') || $can('index', 'Role')" @click="toggleMenu('menu1')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'lock']" /> Permission & Role</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
                     <ul v-show="activeMenu === 'menu1'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link :to="{ name: 'permissions' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Permissions</router-link></li>
-                        <li><router-link :to="{ name: 'roles' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Roles</router-link></li>
+                        <li v-if="$can('index', 'Permission')"><router-link :to="{ name: 'permissions' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Permissions</router-link></li>
+                        <li v-if="$can('index', 'Role')"><router-link :to="{ name: 'roles' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Roles</router-link></li>
                     </ul>   
                 </transition>
             </li>

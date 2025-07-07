@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import { useSystemSettingStore } from '@/stores/systemsetting'
+import { useLoginStore } from '@/stores/login'
+import { defineAbilitiesFromSlugs } from '@/utilis/ability';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,28 +21,28 @@ const router = createRouter({
         { path: '/dashboard', name: 'dashboard', component: () => import('@/views/Dashboard.vue'), meta: { title: 'Dashboard' } },
 
         // System Setting Route
-        { path: '/system-setting', name: 'systemSetting', component: () => import('@/views/SystemSetting/SystemSetting.vue'), meta: { title: 'General Setting' } },
+        { path: '/system-setting', name: 'systemSetting', component: () => import('@/views/SystemSetting/SystemSetting.vue'), meta: { title: 'General Setting', permission : 'general-setting' } },
 
         // Profile Setting Route
-        { path: '/profile-setting', name: 'profileSetting', component: () => import('@/views/ProfileSetting/ProfileSetting.vue'), meta: { title: 'Profile Setting' } },
+        { path: '/profile-setting', name: 'profileSetting', component: () => import('@/views/ProfileSetting/ProfileSetting.vue'), meta: { title: 'Profile Setting', permission: 'update-profile' } },
 
         // Password Change Route
-        { path: '/change-password', name: 'changePassword', component: () => import('@/views/ProfileSetting/ChangePassword.vue'), meta: { title: 'Change Password' } },
+        { path: '/change-password', name: 'changePassword', component: () => import('@/views/ProfileSetting/ChangePassword.vue'), meta: { title: 'Change Password', permission: 'change-password' } },
 
         // Module Management Routes
-        { path: '/modules', name: 'modules', component: () => import('@/views/Module/Index.vue'), meta: { title: 'Module List' } },
-        { path: '/module/create', name: 'moduleCreate', component: () => import('@/views/Module/Create.vue'), meta: { title: 'Create Module' } },
-        { path: '/module/edit/:id', name: 'moduleEdit', component: () => import('@/views/Module/Edit.vue'), meta: { title: 'Edit Module' } },
+        { path: '/modules', name: 'modules', component: () => import('@/views/Module/Index.vue'), meta: { title: 'Module List', permission: 'index-module' } },
+        { path: '/module/create', name: 'moduleCreate', component: () => import('@/views/Module/Create.vue'), meta: { title: 'Create Module', permission: 'create-module' } },
+        { path: '/module/edit/:id', name: 'moduleEdit', component: () => import('@/views/Module/Edit.vue'), meta: { title: 'Edit Module', permission: 'edit-module' } },
 
         // Permission Management Routes
-        { path: '/permissions', name: 'permissions', component: () => import('@/views/Permission/Index.vue'), meta: { title: 'Permission List' } },
-        { path: '/permission/create', name: 'permissionCreate', component: () => import('@/views/Permission/Create.vue'), meta: { title: 'Create Permission' } },
-        { path: '/permission/edit/:id', name: 'permissionEdit', component: () => import('@/views/Permission/Edit.vue'), meta: { title: 'Edit Permission' } },
+        { path: '/permissions', name: 'permissions', component: () => import('@/views/Permission/Index.vue'), meta: { title: 'Permission List', permission: 'index-permission' } },
+        { path: '/permission/create', name: 'permissionCreate', component: () => import('@/views/Permission/Create.vue'), meta: { title: 'Create Permission', permission: 'create-permission' } },
+        { path: '/permission/edit/:id', name: 'permissionEdit', component: () => import('@/views/Permission/Edit.vue'), meta: { title: 'Edit Permission', permission: 'edit-permission' } },
 
         // Role Management Routes
-        { path: '/roles', name: 'roles', component: () => import('@/views/Role/Index.vue'), meta: { title: 'Role List' } },
-        { path: '/role/create', name: 'roleCreate', component: () => import('@/views/Role/Create.vue'), meta: { title: 'Create Role' } },
-        { path: '/role/edit/:id', name: 'roleEdit', component: () => import('@/views/Role/Edit.vue'), meta: { title: 'Edit Role' } },
+        { path: '/roles', name: 'roles', component: () => import('@/views/Role/Index.vue'), meta: { title: 'Role List', permission: 'index-role' } },
+        { path: '/role/create', name: 'roleCreate', component: () => import('@/views/Role/Create.vue'), meta: { title: 'Create Role', permission: 'create-role' } },
+        { path: '/role/edit/:id', name: 'roleEdit', component: () => import('@/views/Role/Edit.vue'), meta: { title: 'Edit Role', permission: 'edit-role' } },
       ]
     },
 
@@ -61,8 +63,16 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('@/views/NotFound.vue'),
+      component: () => import('@/views/errors/NotFound.vue'),
       meta: { title: '404 Not Found' }
+    },
+
+    /** Unauthorized Route */
+    {
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: () => import('@/views/errors/Unauthorized.vue'),
+      meta: { title: 'Unauthorized' }
     }
   ],
 })
@@ -83,6 +93,20 @@ router.beforeEach((to, from, next) => {
     const siteName = systemSettingStore.siteName || 'MHN Inventory';
     const pageTitle = to.meta.title ? `${to.meta.title} | ${siteName}` : siteName;
     document.title = pageTitle;
+
+    // Permission
+    const requiredPermission = to.meta.permission;
+    const loginStore = useLoginStore();
+    
+    if (requiredPermission) {
+      const ability = defineAbilitiesFromSlugs(loginStore.getPermissions);
+      const [action, subjectRaw] = requiredPermission.split('-');
+      const subject = subjectRaw.charAt(0).toUpperCase() + subjectRaw.slice(1);
+
+      if (!ability.can(action, subject)) {
+        return next({ name: 'unauthorized' });
+      }
+    }
 
     next()
   }

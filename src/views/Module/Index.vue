@@ -63,7 +63,7 @@ watch(
         <div class="flex justify-between items-center gap-5 mb-6">
             <h2 class="taxt-md font-medium">All Modules</h2>
 
-            <router-link :to="{ name: 'moduleCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
+            <router-link v-if="$can('create', 'Module')" :to="{ name: 'moduleCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
                 Create New
             </router-link>
         </div>
@@ -88,8 +88,8 @@ watch(
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">{{ module.module_name }}</td>
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">{{ module.module_slug }}</td>
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700 flex flex-col items-start lg:items-stretch lg:flex-row gap-1">
-                            <router-link :to="{ name: 'moduleEdit', params: { id: module.id } }" class="bg-mainColor rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></router-link >                             
-                            <a href="javascript:void(0)" @click.prevent="DeleteModule(module.module_name, module.id)" class="bg-rose-600 rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'trash']" /></a>                          
+                            <router-link v-if="$can('edit', 'Module')" :to="{ name: 'moduleEdit', params: { id: module.id } }" class="bg-mainColor rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></router-link >                             
+                            <a v-if="$can('delete', 'Module')" href="javascript:void(0)" @click.prevent="DeleteModule(module.module_name, module.id)" class="bg-rose-600 rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'trash']" /></a>                          
                         </td>
                     </tr>
                 </tbody>

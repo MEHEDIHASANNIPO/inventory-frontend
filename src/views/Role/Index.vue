@@ -63,7 +63,7 @@ watch(
         <div class="flex justify-between items-center gap-5 mb-6">
             <h2 class="taxt-md font-medium">All Roles</h2>
 
-            <router-link :to="{ name: 'roleCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
+            <router-link v-if="$can('create', 'Role')" :to="{ name: 'roleCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
                 Create New
             </router-link>
         </div>
@@ -94,8 +94,8 @@ watch(
                             </div>
                         </td>
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700 flex flex-col items-start lg:items-stretch lg:flex-row gap-1">
-                            <router-link :to="{ name: 'roleEdit', params: { id: role.id } }" class="bg-mainColor rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></router-link >                             
-                            <a v-show="role.is_deleteable" href="javascript:void(0)" @click.prevent="DeleteRole(role.role_name, role.id)" class="bg-rose-600 rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'trash']" /></a>                          
+                            <router-link v-if="$can('edit', 'Role')" :to="{ name: 'roleEdit', params: { id: role.id } }" class="bg-mainColor rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></router-link >                             
+                            <a v-if="$can('delete', 'Role')" v-show="role.is_deleteable" href="javascript:void(0)" @click.prevent="DeleteRole(role.role_name, role.id)" class="bg-rose-600 rounded-md text-sm text-white font-medium p-2 transition duration-300 hover:opacity-70 hover:text-white flex items-center gap-1"><font-awesome-icon :icon="['fas', 'trash']" /></a>                          
                         </td>
                     </tr>
                 </tbody>
