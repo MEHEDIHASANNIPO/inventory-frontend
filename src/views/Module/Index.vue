@@ -52,7 +52,7 @@ watch(
     <!-- Statistics & Search -->
     <div class="bg-white rounded-lg p-5 shadow-md mb-6">
         <div class="flex justify-between items-center gap-5">
-            <h2 class="taxt-md font-medium">Total Count: <span class="text-mainColor font-bold">{{ moduleStore.getTotalCount }}</span></h2>
+            <h2 class="text-md font-medium">Total Count: <span class="text-mainColor font-bold">{{ moduleStore.getTotalCount }}</span></h2>
 
             <input type="search" placeholder="Search..." v-model="searchKeyword" class="py-2 px-3 border border-gray-200 rounded-md focus:outline-mainColor max-w-40 md:min-w-80">
         </div>
@@ -61,7 +61,7 @@ watch(
     <div class="bg-white rounded-lg p-5 shadow-md">
         <!-- Head -->
         <div class="flex justify-between items-center gap-5 mb-6">
-            <h2 class="taxt-md font-medium">All Modules</h2>
+            <h2 class="text-md font-medium">All Modules</h2>
 
             <router-link v-if="$can('create', 'Module')" :to="{ name: 'moduleCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
                 Create New
@@ -80,7 +80,7 @@ watch(
                         <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Actions</th>
                     </tr>
                 </thead>
-
+                
                 <tbody>
                     <tr v-for="( module, index ) in moduleStore.modules" :key="module.id">
                         <td class="border border-gray-200 py-3 px-4 md:px-2.5 text-sm font-medium">{{ ( moduleStore.pagination.current_page * moduleStore.dataLimit ) - moduleStore.dataLimit + index + 1 }}</td>

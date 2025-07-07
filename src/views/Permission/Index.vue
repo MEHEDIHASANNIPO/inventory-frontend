@@ -55,7 +55,7 @@ watch(
     <!-- Statistics & Search -->
     <div class="bg-white rounded-lg p-5 shadow-md mb-6">
         <div class="flex justify-between items-center gap-5">
-            <h2 class="taxt-md font-medium">Total Count: <span class="text-mainColor font-bold">{{ permissionStore.getTotalCount }}</span></h2>
+            <h2 class="text-md font-medium">Total Count: <span class="text-mainColor font-bold">{{ permissionStore.getTotalCount }}</span></h2>
 
             <input type="search" placeholder="Search..." v-model="searchKeyword" class="py-2 px-3 border border-gray-200 rounded-md focus:outline-mainColor max-w-40 md:min-w-80">
         </div>
@@ -64,7 +64,7 @@ watch(
     <div class="bg-white rounded-lg p-5 shadow-md">
         <!-- Head -->
         <div class="flex justify-between items-center gap-5 mb-6">
-            <h2 class="taxt-md font-medium">All Permissions</h2>
+            <h2 class="text-md font-medium">All Permissions</h2>
 
             <router-link v-if="$can('create', 'Permission')" :to="{ name: 'permissionCreate' }" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 text-base font-semibold font-outfit rounded-md shadow cursor-pointer">
                 Create New
