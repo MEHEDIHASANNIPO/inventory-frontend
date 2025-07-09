@@ -60,15 +60,15 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- Category Management -->
-            <li @click="toggleMenu('menu2')">
+            <li v-if="$can('index', 'Category') || $can('create', 'Category')" @click="toggleMenu('menu2')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'folder-open']" /> Category Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
                     <ul v-show="activeMenu === 'menu2'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
+                        <li><router-link :to="{ name: 'categories' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li><router-link :to="{ name: 'categoryCreate' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>   
                 </transition>
             </li>

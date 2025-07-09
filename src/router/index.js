@@ -43,6 +43,11 @@ const router = createRouter({
         { path: '/roles', name: 'roles', component: () => import('@/views/Role/Index.vue'), meta: { title: 'Role List', permission: 'index-role' } },
         { path: '/role/create', name: 'roleCreate', component: () => import('@/views/Role/Create.vue'), meta: { title: 'Create Role', permission: 'create-role' } },
         { path: '/role/edit/:id', name: 'roleEdit', component: () => import('@/views/Role/Edit.vue'), meta: { title: 'Edit Role', permission: 'edit-role' } },
+
+        // Category Management Routes
+        { path: '/categories', name: 'categories', component: () => import('@/views/Category/Index.vue'), meta: { title: 'Category List', permission: 'index-category' } },
+        { path: '/category/create', name: 'categoryCreate', component: () => import('@/views/Category/Create.vue'), meta: { title: 'Create Category', permission: 'create-category' } },
+        { path: '/category/edit/:id', name: 'categoryEdit', component: () => import('@/views/Category/Edit.vue'), meta: { title: 'Edit Category', permission: 'edit-category' } },
       ]
     },
 
