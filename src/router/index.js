@@ -48,6 +48,11 @@ const router = createRouter({
         { path: '/categories', name: 'categories', component: () => import('@/views/Category/Index.vue'), meta: { title: 'Category List', permission: 'index-category' } },
         { path: '/category/create', name: 'categoryCreate', component: () => import('@/views/Category/Create.vue'), meta: { title: 'Create Category', permission: 'create-category' } },
         { path: '/category/edit/:id', name: 'categoryEdit', component: () => import('@/views/Category/Edit.vue'), meta: { title: 'Edit Category', permission: 'edit-category' } },
+
+        // Brand Management Routes
+        { path: '/brands', name: 'brands', component: () => import('@/views/Brand/Index.vue'), meta: { title: 'Brand List', permission: 'index-brand' } },
+        { path: '/brand/create', name: 'brandCreate', component: () => import('@/views/Brand/Create.vue'), meta: { title: 'Create Brand', permission: 'create-brand' } },
+        { path: '/brand/edit/:id', name: 'brandEdit', component: () => import('@/views/Brand/Edit.vue'), meta: { title: 'Edit Brand', permission: 'edit-brand' } },
       ]
     },
 

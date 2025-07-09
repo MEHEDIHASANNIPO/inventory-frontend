@@ -3,12 +3,12 @@ import { defineStore } from 'pinia'
 import { baseClient, inventoryAxiosClient } from '@/utilis/systemaxios'
 import config from '@/utilis/config'
 
-export const useCategoryStore = defineStore('category', {
+export const useBrandStore = defineStore('brand', {
   state: () => ({
     rawData: [],
     dataLimit: config.defaultDataLimit || 10,
-    categories: [],
-    category: null,
+    brands: [],
+    brand: null,
     errors: [],
     message: [],
     swal: null,
@@ -21,8 +21,8 @@ export const useCategoryStore = defineStore('category', {
     },
 
     editFormData: {
-      category_name: null,
-      category_code: null,
+      brand_name: null,
+      brand_code: null,
     }
   }),
 
@@ -32,12 +32,12 @@ export const useCategoryStore = defineStore('category', {
 
   actions: {
     // All List
-    async getAllCategories() {
+    async getAllBrands() {
       try {
-        const { data } = await inventoryAxiosClient.get('/all-categories');
+        const { data } = await inventoryAxiosClient.get('/all-brands');
 
         this.rawData = data;
-        this.categories = data.data;
+        this.brands = data.data;
         this.pagination.totalCount = data.metadata.count;
       } catch (error) {
         this.errors = error.response?.data;
@@ -50,9 +50,9 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // All List with Pagination
-    async getCategories(page = 1, limit = this.dataLimit, search = '') {
+    async getBrands(page = 1, limit = this.dataLimit, search = '') {
       try {
-        const { data } = await inventoryAxiosClient.get('/categories', {
+        const { data } = await inventoryAxiosClient.get('/brands', {
           params: {
             page: page,
             per_page: limit,
@@ -61,7 +61,7 @@ export const useCategoryStore = defineStore('category', {
         });
 
         this.rawData = data;
-        this.categories = data.data.data;
+        this.brands = data.data.data;
         this.pagination.current_page = data.data.current_page;
         this.pagination.last_page = data.data.last_page;
         this.pagination.totalCount = data.data.total;
@@ -75,10 +75,10 @@ export const useCategoryStore = defineStore('category', {
       }
     },
 
-     // Store Data
-    async storeCategory(formData) {
+    // Store Data
+    async storeBrand(formData) {
       try {
-        const { data } = await inventoryAxiosClient.post('/categories', formData);
+        const { data } = await inventoryAxiosClient.post('/brands', formData);
 
         this.swal({
           icon: data.status,
@@ -86,7 +86,7 @@ export const useCategoryStore = defineStore('category', {
           timer: 1000
         })
 
-        this.router.push({ name: 'categories' })
+        this.router.push({ name: 'brands' })
       } catch (error) {
         this.errors = error.response?.data;
         this.swal({
@@ -98,13 +98,13 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // Single Data
-    async getCategory(id) {
+    async getBrand(id) {
       try {
-        const { data } = await inventoryAxiosClient.get(`/categories/${id}`);
+        const { data } = await inventoryAxiosClient.get(`/brands/${id}`);
 
-        this.category = data.data;
-        this.editFormData.category_name = data.data.category_name;
-        this.editFormData.category_code = data.data.category_code;
+        this.brand = data.data;
+        this.editFormData.brand_name = data.data.brand_name;
+        this.editFormData.brand_code = data.data.brand_code;
       } catch (error) {
         this.errors = error.response?.data;
         this.swal({
@@ -116,9 +116,9 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // Update Data
-    async updateCategory(formData, id) {
+    async updateBrand(formData, id) {
       try {
-        const { data } = await inventoryAxiosClient.put(`/categories/${id}`, formData);
+        const { data } = await inventoryAxiosClient.put(`/brands/${id}`, formData);
 
         this.swal({
           icon: data.status,
@@ -126,7 +126,7 @@ export const useCategoryStore = defineStore('category', {
           timer: 1000
         })
 
-        this.router.push({ name: 'categories' })
+        this.router.push({ name: 'brands' })
       } catch (error) {
         this.errors = error.response?.data;
         this.swal({
@@ -138,9 +138,9 @@ export const useCategoryStore = defineStore('category', {
     },
 
     // Delete Data
-    async deleteCategory(id, callback) {
+    async deleteBrand(id, callback) {
       try {
-        const { data } = await inventoryAxiosClient.delete(`/categories/${id}`);
+        const { data } = await inventoryAxiosClient.delete(`/brands/${id}`);
 
         callback('success');
 
@@ -164,7 +164,7 @@ export const useCategoryStore = defineStore('category', {
     // Change Status
     async changeStatus(id) {
       try {
-        const { data } = await inventoryAxiosClient.get(`/category/status/${id}`);
+        const { data } = await inventoryAxiosClient.get(`/brand/status/${id}`);
 
         this.swal({
           icon: data.status,
