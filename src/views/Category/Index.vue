@@ -77,7 +77,7 @@ watch(
                         <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Last Updated</th>
                         <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Category Name</th>
                         <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Code</th>
-                        <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Status</th>
+                        <th v-if="$can('edit', 'Category')" class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Status</th>
                         <th class="border border-gray-200 py-2.5 px-4 md:px-2.5 text-base font-semibold font-outfit text-left">Actions</th>
                     </tr>
                 </thead>
@@ -88,7 +88,7 @@ watch(
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">{{ new Date(category.updated_at).toLocaleString() }}</td>
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">{{ category.category_name }}</td>
                         <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">{{ category.category_code }}</td>
-                        <td class="border border-gray-200 p-3 text-sm font-medium text-gray-700">
+                        <td v-if="$can('edit', 'Category')" class="border border-gray-200 p-3 text-sm font-medium text-gray-700">
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" class="sr-only peer" @change.prevent="categoryStore.changeStatus(category.id)" :checked="category.is_active">
                                 <div class="w-9 h-5 bg-gray-300 peer-focus:ring-2 peer-focus:ring-mainColor rounded-full peer peer-checked:after:translate-x-4 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-mainColor"></div>
