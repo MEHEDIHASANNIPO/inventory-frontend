@@ -53,6 +53,11 @@ const router = createRouter({
         { path: '/brands', name: 'brands', component: () => import('@/views/Brand/Index.vue'), meta: { title: 'Brand List', permission: 'index-brand' } },
         { path: '/brand/create', name: 'brandCreate', component: () => import('@/views/Brand/Create.vue'), meta: { title: 'Create Brand', permission: 'create-brand' } },
         { path: '/brand/edit/:id', name: 'brandEdit', component: () => import('@/views/Brand/Edit.vue'), meta: { title: 'Edit Brand', permission: 'edit-brand' } },
+
+        // WareHouse Management Routes
+        { path: '/warehouses', name: 'warehouses', component: () => import('@/views/WareHouse/Index.vue'), meta: { title: 'WareHouse List', permission: 'index-warehouse' } },
+        { path: '/warehouse/create', name: 'warehouseCreate', component: () => import('@/views/WareHouse/Create.vue'), meta: { title: 'Create WareHouse', permission: 'create-warehouse' } },
+        { path: '/warehouse/edit/:id', name: 'warehouseEdit', component: () => import('@/views/WareHouse/Edit.vue'), meta: { title: 'Edit WareHouse', permission: 'edit-warehouse' } },
       ]
     },
 

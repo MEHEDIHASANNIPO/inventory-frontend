@@ -88,15 +88,15 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- WareHouse Management -->
-            <li @click="toggleMenu('menu4')">
+            <li v-if="$can('index', 'Warehouse') || $can('create', 'Warehouse')" @click="toggleMenu('menu4')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'warehouse']" /> WareHouse Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
                 <transition name="slide">
                 
                     <ul v-show="activeMenu === 'menu4'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
+                        <li v-if="$can('index', 'Warehouse')"><router-link :to="{ name: 'warehouses' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li v-if="$can('create', 'Warehouse')"><router-link :to="{ name: 'warehouseCreate' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>   
                 </transition>
             </li>
