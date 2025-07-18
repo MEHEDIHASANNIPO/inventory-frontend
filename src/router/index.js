@@ -58,6 +58,12 @@ const router = createRouter({
         { path: '/warehouses', name: 'warehouses', component: () => import('@/views/WareHouse/Index.vue'), meta: { title: 'WareHouse List', permission: 'index-warehouse' } },
         { path: '/warehouse/create', name: 'warehouseCreate', component: () => import('@/views/WareHouse/Create.vue'), meta: { title: 'Create WareHouse', permission: 'create-warehouse' } },
         { path: '/warehouse/edit/:id', name: 'warehouseEdit', component: () => import('@/views/WareHouse/Edit.vue'), meta: { title: 'Edit WareHouse', permission: 'edit-warehouse' } },
+
+        // Supplier Management Routes
+        { path: '/suppliers', name: 'suppliers', component: () => import('@/views/Supplier/Index.vue'), meta: { title: 'Supplier List', permission: 'index-supplier' } },
+        { path: '/supplier/create', name: 'supplierCreate', component: () => import('@/views/Supplier/Create.vue'), meta: { title: 'Create Supplier', permission: 'create-supplier' } },
+        { path: '/supplier/edit/:id', name: 'supplierEdit', component: () => import('@/views/Supplier/Edit.vue'), meta: { title: 'Edit Supplier', permission: 'edit-supplier' } },
+
       ]
     },
 
