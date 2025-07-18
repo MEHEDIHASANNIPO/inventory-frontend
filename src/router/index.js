@@ -64,6 +64,10 @@ const router = createRouter({
         { path: '/supplier/create', name: 'supplierCreate', component: () => import('@/views/Supplier/Create.vue'), meta: { title: 'Create Supplier', permission: 'create-supplier' } },
         { path: '/supplier/edit/:id', name: 'supplierEdit', component: () => import('@/views/Supplier/Edit.vue'), meta: { title: 'Edit Supplier', permission: 'edit-supplier' } },
 
+        // Product Management Routes
+        { path: '/products', name: 'products', component: () => import('@/views/Product/Index.vue'), meta: { title: 'Product List', permission: 'index-product' } },
+        { path: '/product/create', name: 'productCreate', component: () => import('@/views/Product/Create.vue'), meta: { title: 'Create Product', permission: 'create-product' } },
+        { path: '/product/edit/:id', name: 'productEdit', component: () => import('@/views/Product/Edit.vue'), meta: { title: 'Edit Product', permission: 'edit-product' } },
       ]
     },
 
