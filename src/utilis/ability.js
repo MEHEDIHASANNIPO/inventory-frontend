@@ -4,8 +4,12 @@ export function defineAbilitiesFromSlugs(permissionSlugs = []) {
   const { can, build } = new AbilityBuilder(createMongoAbility);
 
   permissionSlugs.forEach(slug => {
-    const [action, subjectRaw] = slug.split('-');
-    const subject = subjectRaw.charAt(0).toUpperCase() + subjectRaw.slice(1);
+    const parts = slug.split('-');
+    const action = parts[0];
+    const subject = parts.slice(1)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('');
+
     can(action, subject);
   });
 

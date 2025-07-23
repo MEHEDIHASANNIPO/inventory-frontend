@@ -68,6 +68,11 @@ const router = createRouter({
         { path: '/products', name: 'products', component: () => import('@/views/Product/Index.vue'), meta: { title: 'Product List', permission: 'index-product' } },
         { path: '/product/create', name: 'productCreate', component: () => import('@/views/Product/Create.vue'), meta: { title: 'Create Product', permission: 'create-product' } },
         { path: '/product/edit/:id', name: 'productEdit', component: () => import('@/views/Product/Edit.vue'), meta: { title: 'Edit Product', permission: 'edit-product' } },
+
+        // Expense Category Routes
+        { path: '/expense/categories', name: 'expenseCategories', component: () => import('@/views/ExpenseCategory/Index.vue'), meta: { title: 'Expense Category List', permission: 'index-expense-category' } },
+        { path: '/expense/category/create', name: 'expenseCategoryCreate', component: () => import('@/views/ExpenseCategory/Create.vue'), meta: { title: 'Create Expense Category', permission: 'create-expense-category' } },
+        { path: '/expense/category/edit/:id', name: 'expenseCategoryEdit', component: () => import('@/views/ExpenseCategory/Edit.vue'), meta: { title: 'Edit Expense Category', permission: 'edit-expense-category' } },
       ]
     },
 
@@ -125,8 +130,12 @@ router.beforeEach((to, from, next) => {
     
     if (requiredPermission) {
       const ability = defineAbilitiesFromSlugs(loginStore.getPermissions);
-      const [action, subjectRaw] = requiredPermission.split('-');
-      const subject = subjectRaw.charAt(0).toUpperCase() + subjectRaw.slice(1);
+      const parts = requiredPermission.split('-');
+      const action = parts[0];
+      const subject = parts.slice(1)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+
 
       if (!ability.can(action, subject)) {
         return next({ name: 'unauthorized' });
