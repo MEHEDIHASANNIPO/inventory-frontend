@@ -74,6 +74,11 @@ const router = createRouter({
         { path: '/expense/category/create', name: 'expenseCategoryCreate', component: () => import('@/views/ExpenseCategory/Create.vue'), meta: { title: 'Create Expense Category', permission: 'create-expense-category' } },
         { path: '/expense/category/edit/:id', name: 'expenseCategoryEdit', component: () => import('@/views/ExpenseCategory/Edit.vue'), meta: { title: 'Edit Expense Category', permission: 'edit-expense-category' } },
 
+        // Expense Management Routes
+        { path: '/expenses', name: 'expenses', component: () => import('@/views/Expense/Index.vue'), meta: { title: 'Expense List', permission: 'index-expense' } }, 
+        { path: '/expense/create', name: 'expenseCreate', component: () => import('@/views/Expense/Create.vue'), meta: { title: 'Create Expense', permission: 'create-expense' } }, 
+        { path: '/expense/edit/:id', name: 'expenseEdit', component: () => import('@/views/Expense/Edit.vue'), meta: { title: 'Edit Expense', permission: 'edit-expense' } },
+
         // Employee Management Routes
         { path: '/employees', name: 'employees', component: () => import('@/views/Employee/Index.vue'), meta: { title: 'Employee List', permission: 'index-employee' } },
         { path: '/employee/create', name: 'employeeCreate', component: () => import('@/views/Employee/Create.vue'), meta: { title: 'Create Employee', permission: 'create-employee' } },

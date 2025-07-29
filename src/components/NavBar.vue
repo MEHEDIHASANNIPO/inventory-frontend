@@ -130,7 +130,7 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- Expense Management -->
-            <li @click="toggleMenu('menu7')">
+            <li v-if="$can('index', 'ExpenseCategory') || $can('index', 'Expense') || $can('create', 'Expense')" @click="toggleMenu('menu7')">
                 <a href="javascript:void(0)" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'sack-dollar']" /> Expense Management</span> <font-awesome-icon :icon="['fas', 'chevron-right']" class="transition duration-300 text-xs" />
                 </a>
@@ -138,8 +138,8 @@ const toggleMenu = (menuName) => {
                 
                     <ul v-show="activeMenu === 'menu7'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
                         <li v-if="$can('index', 'ExpenseCategory')"><router-link :to="{ name: 'expenseCategories' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Expense Category</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
-                        <li><router-link @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
+                        <li v-if="$can('index', 'Expense')"><router-link :to="{ name: 'expenses' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li v-if="$can('create', 'Expense')"><router-link :to="{ name: 'expenseCreate' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>   
                 </transition>
             </li>
@@ -160,12 +160,8 @@ const toggleMenu = (menuName) => {
                 <transition name="slide">
 
                     <ul v-show="activeMenu === 'menu8'" class="overflow-hidden py-1.5 my-3 space-y-4 list-disc ps-8 transition-all ease-in-out duration-500 marker:text-mainColor">
-                        <li v-if="$can('index', 'Employee')">
-                            <router-link :to="{ name: 'employees' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link>
-                        </li>
-                        <li v-if="$can('create', 'Employee')">
-                            <router-link :to="{ name: 'employeeCreate' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link>
-                        </li>
+                        <li v-if="$can('index', 'Employee')"><router-link :to="{ name: 'employees' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">All List</router-link></li>
+                        <li v-if="$can('create', 'Employee')"><router-link :to="{ name: 'employeeCreate' }" @click="navValue = false" class="text-sm font-medium text-gray-700 hover:text-mainColor">Create New</router-link></li>
                     </ul>
                 </transition>
             </li>
