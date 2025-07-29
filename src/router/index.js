@@ -73,6 +73,11 @@ const router = createRouter({
         { path: '/expense/categories', name: 'expenseCategories', component: () => import('@/views/ExpenseCategory/Index.vue'), meta: { title: 'Expense Category List', permission: 'index-expense-category' } },
         { path: '/expense/category/create', name: 'expenseCategoryCreate', component: () => import('@/views/ExpenseCategory/Create.vue'), meta: { title: 'Create Expense Category', permission: 'create-expense-category' } },
         { path: '/expense/category/edit/:id', name: 'expenseCategoryEdit', component: () => import('@/views/ExpenseCategory/Edit.vue'), meta: { title: 'Edit Expense Category', permission: 'edit-expense-category' } },
+
+        // Employee Management Routes
+        { path: '/employees', name: 'employees', component: () => import('@/views/Employee/Index.vue'), meta: { title: 'Employee List', permission: 'index-employee' } },
+        { path: '/employee/create', name: 'employeeCreate', component: () => import('@/views/Employee/Create.vue'), meta: { title: 'Create Employee', permission: 'create-employee' } },
+        { path: '/employee/edit/:id', name: 'employeeEdit', component: () => import('@/views/Employee/Edit.vue'), meta: { title: 'Edit Employee', permission: 'edit-employee' } },
       ]
     },
 
