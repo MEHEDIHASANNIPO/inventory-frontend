@@ -83,6 +83,11 @@ const router = createRouter({
         { path: '/employees', name: 'employees', component: () => import('@/views/Employee/Index.vue'), meta: { title: 'Employee List', permission: 'index-employee' } },
         { path: '/employee/create', name: 'employeeCreate', component: () => import('@/views/Employee/Create.vue'), meta: { title: 'Create Employee', permission: 'create-employee' } },
         { path: '/employee/edit/:id', name: 'employeeEdit', component: () => import('@/views/Employee/Edit.vue'), meta: { title: 'Edit Employee', permission: 'edit-employee' } },
+
+        // Salary Management Routes
+        { path: '/salaries', name: 'salaries', component: () => import('@/views/Salary/Index.vue'), meta: { title: 'Salary List', permission: 'index-salary' } },
+        { path: '/salary/create', name: 'salaryCreate', component: () => import('@/views/Salary/Create.vue'), meta: { title: 'Create Salary', permission: 'create-salary' } },
+        { path: '/salary/edit/:id', name: 'salaryEdit', component: () => import('@/views/Salary/Edit.vue'), meta: { title: 'Edit Salary', permission: 'edit-salary' } },
       ]
     },
 
