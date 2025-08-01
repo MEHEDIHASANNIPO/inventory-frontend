@@ -53,8 +53,8 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- POS -->
-            <li>
-                <router-link @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+            <li v-if="$can('index', 'Pos')">
+                <router-link :to="{ name: 'posIndex' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'shopping-cart']" /> POS</span>
                 </router-link>
             </li>

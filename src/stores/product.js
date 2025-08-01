@@ -72,13 +72,15 @@ export const useProductStore = defineStore('product', {
     },
 
     // All List with Pagination
-    async getProducts(page = 1, limit = this.dataLimit, search = '') {
+    async getProducts(page = 1, limit = this.dataLimit, search = '', filterFormData = '') {
       try {
         const { data } = await inventoryAxiosClient.get('/products', {
           params: {
             page: page,
             per_page: limit,
             search: search,
+            category_id: filterFormData.category_id,
+            brand_id: filterFormData.brand_id,
           }
         });
 
