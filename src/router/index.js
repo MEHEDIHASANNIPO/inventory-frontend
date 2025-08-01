@@ -88,6 +88,11 @@ const router = createRouter({
         { path: '/salaries', name: 'salaries', component: () => import('@/views/Salary/Index.vue'), meta: { title: 'Salary List', permission: 'index-salary' } },
         { path: '/salary/create', name: 'salaryCreate', component: () => import('@/views/Salary/Create.vue'), meta: { title: 'Create Salary', permission: 'create-salary' } },
         { path: '/salary/edit/:id', name: 'salaryEdit', component: () => import('@/views/Salary/Edit.vue'), meta: { title: 'Edit Salary', permission: 'edit-salary' } },
+
+        // Customer Management Routes
+        { path: '/customers', name: 'customers', component: () => import('@/views/Customer/Index.vue'), meta: { title: 'Customer List', permission: 'index-customer' } },
+        { path: '/customer/create', name: 'customerCreate', component: () => import('@/views/Customer/Create.vue'), meta: { title: 'Create Customer', permission: 'create-customer' } },
+        { path: '/customer/edit/:id', name: 'customerEdit', component: () => import('@/views/Customer/Edit.vue'), meta: { title: 'Edit Customer', permission: 'edit-customer' } },
       ]
     },
 
