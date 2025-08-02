@@ -82,6 +82,9 @@ const router = createRouter({
         { path: '/expense/create', name: 'expenseCreate', component: () => import('@/views/Expense/Create.vue'), meta: { title: 'Create Expense', permission: 'create-expense' } }, 
         { path: '/expense/edit/:id', name: 'expenseEdit', component: () => import('@/views/Expense/Edit.vue'), meta: { title: 'Edit Expense', permission: 'edit-expense' } },
 
+        // Order Management Routes
+        { path: '/sales', name: 'orders', component: () => import('@/views/Order/Index.vue'), meta: { title: 'Sales History', permission: 'index-order' } },
+
         // Employee Management Routes
         { path: '/employees', name: 'employees', component: () => import('@/views/Employee/Index.vue'), meta: { title: 'Employee List', permission: 'index-employee' } },
         { path: '/employee/create', name: 'employeeCreate', component: () => import('@/views/Employee/Create.vue'), meta: { title: 'Create Employee', permission: 'create-employee' } },

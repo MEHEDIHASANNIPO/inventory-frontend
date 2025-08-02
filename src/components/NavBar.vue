@@ -145,8 +145,8 @@ const toggleMenu = (menuName) => {
             </li>
 
             <!-- Sales History -->
-            <li>
-                <router-link @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+            <li v-if="$can('index', 'Order')">
+                <router-link :to="{ name: 'orders' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
                     <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'square-poll-vertical']" /> Sales History</span>
                 </router-link>
             </li>
