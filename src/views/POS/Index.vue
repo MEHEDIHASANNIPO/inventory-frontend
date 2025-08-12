@@ -6,6 +6,7 @@ import { useCartStore } from '@/stores/cart';
 import { useProductStore } from '@/stores/product';
 import { useCategoryStore } from '@/stores/category';
 import { useBrandStore } from '@/stores/brand';
+import { useOrderStore } from '@/stores/order';
 import { useRouter } from 'vue-router';
 import _ from 'lodash';
 
@@ -15,11 +16,15 @@ const cartStore = useCartStore();
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
 const brandStore = useBrandStore();
+const orderStore = useOrderStore();
 const router = useRouter();
 const swal = inject('$swal')
 
 cartStore.router = router;
 cartStore.swal = swal;
+
+orderStore.router = router;
+orderStore.swal = swal;
 
 /** All Variables */
 const searchKeyword = ref('')
@@ -45,12 +50,18 @@ const orderFormData = reactive({
     total: 0,
 });
 
+const schema = reactive({
+    customer_phone: 'required|min:7|max:16',
+    payment_method: 'required',
+    subtotal: 'required',
+    total: 'required',
+});
+
 /** All Methods */
 const addToCart = (product) => {
     cartFormData.product_id = product.id;
 
     cartStore.addToCart(cartFormData);
-
     cartStore.getCartItems();
 }
 
@@ -71,9 +82,24 @@ const getDiscount = _.debounce(() => {
   orderFormData.total = sub - disc;
 }, 300);
 
+const resetOrderFormData = () =>{
+    orderFormData.customer_name = null;
+    orderFormData.customer_phone = null;
+    orderFormData.payment_method = 'Cash';
+    orderFormData.transaction_number = null;
+    orderFormData.subtotal = 0;
+    orderFormData.discount = 0;
+    orderFormData.total = 0;
+};
 
-const handleConfirm = () => {
-  showModal.value = false;
+
+const confirmOrder = () => {
+    showModal.value = false;
+
+    orderStore.storeOrder(orderFormData);
+    resetOrderFormData();
+    productStore.getProducts(productStore.pagination.current_page, productStore.dataLimit + 2);
+    cartStore.getCartItems();
 }
 
 /** Hook & Computed */
@@ -94,14 +120,14 @@ watch(
 
 <template>
     <!-- Products & Carts -->
-    <div class="flex justify-between gap-10">
+    <div class="flex flex-col md:flex-row justify-between gap-10">
 
         <!-- Products & Filter -->
-        <div class="w-3/5">
+        <div class="w-full md:w-3/5">
 
             <!-- Filter & Search -->
             <div class="bg-white rounded-lg p-5 shadow-md mb-6">
-                <div class="flex justify-between items-center gap-5">
+                <div class="grid grid-cols-2 lg:grid-cols-3 justify-between items-center gap-5">
                     <!-- Filter By Category -->
                     <select name="category" v-model="filterFormData.category_id" @change="productStore.getProducts(productStore.pagination.current_page, productStore.dataLimit + 2, searchKeyword, filterFormData)" class="block w-full p-2.5 rounded-md border border-gray-200 focus:outline-1 focus:outline-mainColor cursor-pointer">
                         <option value="">Filter Category</option>
@@ -119,17 +145,17 @@ watch(
                     </select>
 
                     <!-- Search -->
-                    <input type="search" placeholder="Search..." v-model="searchKeyword" class="py-2 px-3 border border-gray-200 rounded-md focus:outline-mainColor max-w-40 md:min-w-80">
+                    <input type="search" placeholder="Search..." v-model="searchKeyword" class="col-span-2 lg:col-span-1 py-2 px-3 border border-gray-200 rounded-md focus:outline-mainColor">
                 </div>
             </div>
 
             <!-- Product List -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
                 <div class="bg-white rounded-lg p-8 shadow-md text-center flex flex-col justify-between" v-for="(product, index) in productStore.products" :key="product.id">
 
                     <div class="">
                         <!-- Image -->
-                        <img :src="productStore.getFileUrl + product.file" :alt="product.product_name" class="w-3/4 h-36 object-cover mx-auto rounded" />
+                        <img :src="productStore.getFileUrl + product.file" :alt="product.product_name" class="w-3/4 h-48 md:h-36 object-cover mx-auto rounded" />
 
                         <!-- Name -->
                         <h3 class="text-md font-semibold text-gray-800 dark:text-gray-100 mt-5">{{ product.product_name }}</h3>
@@ -166,7 +192,7 @@ watch(
         </div>
 
         <!-- Carts -->
-        <div class="bg-white rounded-lg p-5 shadow-md w-2/5">
+        <div class="bg-white rounded-lg p-5 shadow-md w-full md:w-2/5">
             <h2 class="text-md font-semibold text-gray-800 pb-2 dark:text-gray-100">Carts</h2>
 
             <!-- Table -->
@@ -216,7 +242,7 @@ watch(
                 <!-- Amount -->
                 <div class="border border-gray-200 rounded p-5 mt-5">
                     <div class="flex items-center justify-between gap-2 pb-2"><h4>Sub Total:</h4> <span>${{ cartStore.getSubtotal }}</span></div>
-                    <div class="flex items-center justify-between gap-2 py-2"><h4>Discount:</h4> <span>${{ cartStore.getSubtotal }}</span></div>
+                    <div class="flex items-center justify-between gap-2 py-2"><h4>Discount:</h4> <span>${{ orderFormData.discount }}</span></div>
                     <div class="flex items-center justify-between gap-2 pt-3 border-t border-gray-300"><h4>Subtotal:</h4> <span class="text-rose-600">${{ cartStore.getSubtotal }}</span></div>
                 </div>
 
@@ -245,72 +271,74 @@ watch(
                 </button>
             </div>
 
-            <!-- Modal Body -->
-            <div class="p-4">
-                <!-- Customer Name -->
-                <div class="mb-4">
-                    <label for="customer-name" class="block text-sm font-bold text-gray-700 mb-1.5">Customer Name (optional)</label>
-                    <vee-field type="text" name="customer_name" id="customer-name" v-model="orderFormData.customer_name" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Customer Name" />
-                    <ErrorMessage name="customer_name" class="text-xs text-rose-500 font-semibold my-2" />
-                </div>
-
-                <!-- Customer Phone -->
-                <div class="mb-4">
-                    <label for="customer-phone" class="block text-sm font-bold text-gray-700 mb-1.5">Customer Phone <span class="text-rose-400">*</span></label>
-                    <vee-field type="tel" name="customer_phone" id="customer-phone" v-model="orderFormData.customer_phone" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Customer Phone" />
-                    <ErrorMessage name="customer_phone" class="text-xs text-rose-500 font-semibold my-2" />
-                </div>
-
-                <!-- Payment Method -->
-                <div class="mb-4">
-                    <label for="payment-method" class="block text-sm font-bold text-gray-700 mb-1.5">Payment Method <span class="text-rose-400">*</span></label>
-                    <vee-field as="select" name="payment_method" id="payment-method" v-model="orderFormData.payment_method" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 cursor-pointer focus:outline-1 focus:outline-mainColor">
-                        <option value="">Select Payment Method</option>
-                        <option>{{  }}</option>
-                    </vee-field>
-                    <ErrorMessage name="payment_method" class="text-xs text-rose-500 font-semibold my-2" />
-                </div>
-
-                <!-- Transaction Number -->
-                <div class="mb-4" v-if="orderFormData.payment_method != 'Cash' && orderFormData.payment_method != ''">
-                    <label for="transaction-number" class="block text-sm font-bold text-gray-700 mb-1.5">Transaction Number <span class="text-rose-400">*</span></label>
-                    <vee-field type="text" name="transaction_number" id="transaction-number" v-model="orderFormData.transaction_number" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Transaction Number" />
-                    <ErrorMessage name="transaction_number" class="text-xs text-rose-500 font-semibold my-2" />
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Subtotal -->
+            <vee-form :validation-schema="schema" @submit="confirmOrder" validate-on-input>
+                <!-- Modal Body -->
+                <div class="p-4">
+                    <!-- Customer Name -->
                     <div class="mb-4">
-                        <label for="subtotal" class="block text-sm font-bold text-gray-700 mb-1.5">Subtotal <span class="text-rose-400">*</span></label>
-                        <vee-field type="number" name="subtotal" id="subtotal" v-model="orderFormData.subtotal" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Subtotal" disabled readonly />
-                        <ErrorMessage name="subtotal" class="text-xs text-rose-500 font-semibold my-2" />
+                        <label for="customer-name" class="block text-sm font-bold text-gray-700 mb-1.5">Customer Name (optional)</label>
+                        <vee-field type="text" name="customer_name" id="customer-name" v-model="orderFormData.customer_name" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Customer Name" />
+                        <ErrorMessage name="customer_name" class="text-xs text-rose-500 font-semibold my-2" />
                     </div>
 
-                    <!-- Discount -->
+                    <!-- Customer Phone -->
                     <div class="mb-4">
-                        <label for="discount" class="block text-sm font-bold text-gray-700 mb-1.5">Discount</label>
-                        <vee-field type="number" name="discount" id="discount" @input="getDiscount" v-model.number="orderFormData.discount" class="block w-full p-2.5 rounded-md border border-gray-200 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Discount" min="0" />
-                        <ErrorMessage name="discount" class="text-xs text-rose-500 font-semibold my-2" />
+                        <label for="customer-phone" class="block text-sm font-bold text-gray-700 mb-1.5">Customer Phone <span class="text-rose-400">*</span></label>
+                        <vee-field type="tel" name="customer_phone" id="customer-phone" v-model="orderFormData.customer_phone" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Customer Phone" />
+                        <ErrorMessage name="customer_phone" class="text-xs text-rose-500 font-semibold my-2" />
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mb-4">
+                        <label for="payment-method" class="block text-sm font-bold text-gray-700 mb-1.5">Payment Method <span class="text-rose-400">*</span></label>
+                        <vee-field as="select" name="payment_method" id="payment-method" v-model="orderFormData.payment_method" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 cursor-pointer focus:outline-1 focus:outline-mainColor">
+                            <option value="">Select Payment Method</option>
+                            <option v-for="(payment, index) in orderStore.paymentMethods" :key="index" :value="payment">{{ payment }}</option>
+                        </vee-field>
+                        <ErrorMessage name="payment_method" class="text-xs text-rose-500 font-semibold my-2" />
+                    </div>
+
+                    <!-- Transaction Number -->
+                    <div class="mb-4" v-if="orderFormData.payment_method != 'Cash' && orderFormData.payment_method != ''">
+                        <label for="transaction-number" class="block text-sm font-bold text-gray-700 mb-1.5">Transaction Number <span class="text-rose-400">*</span></label>
+                        <vee-field type="text" name="transaction_number" id="transaction-number" v-model="orderFormData.transaction_number" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Transaction Number" />
+                        <ErrorMessage name="transaction_number" class="text-xs text-rose-500 font-semibold my-2" />
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Subtotal -->
+                        <div class="mb-4">
+                            <label for="subtotal" class="block text-sm font-bold text-gray-700 mb-1.5">Subtotal <span class="text-rose-400">*</span></label>
+                            <vee-field type="number" name="subtotal" id="subtotal" v-model="orderFormData.subtotal" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Subtotal" disabled readonly />
+                            <ErrorMessage name="subtotal" class="text-xs text-rose-500 font-semibold my-2" />
+                        </div>
+
+                        <!-- Discount -->
+                        <div class="mb-4">
+                            <label for="discount" class="block text-sm font-bold text-gray-700 mb-1.5">Discount</label>
+                            <vee-field type="number" name="discount" id="discount" @input="getDiscount" v-model.number="orderFormData.discount" class="block w-full p-2.5 rounded-md border border-gray-200 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Discount" min="0" />
+                            <ErrorMessage name="discount" class="text-xs text-rose-500 font-semibold my-2" />
+                        </div>
+                    </div>
+
+                    <!-- Grand Total -->
+                    <div class="pt-4 border-t border-gray-300">
+                        <label for="total" class="block text-sm font-bold text-gray-700 mb-1.5">Grand Total <span class="text-rose-400">*</span></label>
+                        <vee-field type="number" name="total" id="total" v-model="orderFormData.total" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Grand Total" disabled readonly />
+                        <ErrorMessage name="total" class="text-xs text-rose-500 font-semibold my-2" />
                     </div>
                 </div>
 
-                <!-- Grand Total -->
-                <div class="pt-4 border-t border-gray-300">
-                    <label for="total" class="block text-sm font-bold text-gray-700 mb-1.5">Grand Total <span class="text-rose-400">*</span></label>
-                    <vee-field type="number" name="total" id="total" v-model="orderFormData.total" class="block w-full p-2.5 rounded-md border border-gray-200 bg-gray-100 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Grand Total" disabled readonly />
-                    <ErrorMessage name="total" class="text-xs text-rose-500 font-semibold my-2" />
+                <!-- Modal Footer -->
+                <div class="flex justify-end gap-2 p-4 border-t border-gray-300">
+                    <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 cursor-pointer" @click="showModal = false">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-mainColor text-white rounded cursor-pointer">
+                        Confirm Order
+                    </button>
                 </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="flex justify-end gap-2 p-4 border-t border-gray-300">
-                <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 cursor-pointer" @click="showModal = false">
-                    Cancel
-                </button>
-                <button class="px-4 py-2 bg-mainColor text-white rounded cursor-pointer" @click="handleConfirm">
-                    Confirm Order
-                </button>
-            </div>
+            </vee-form>
         </div>
         </div>
     </transition>
