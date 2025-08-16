@@ -207,6 +207,13 @@ const toggleMenu = (menuName) => {
                     </ul>   
                 </transition>
             </li>
+
+            <!-- Backup Management -->
+            <li v-if="$can('index', 'Backup')">
+                <router-link :to="{ name: 'backups' }" @click="navValue = false" class="text-sm font-medium text-gray-700 flex items-center justify-between gap-3 hover:text-mainColor">
+                    <span class="flex items-center gap-3"><font-awesome-icon :icon="['fas', 'server']" /> Database Backup</span>
+                </router-link>
+            </li>
         </ul>
     </div>
     <!-- Navbar End -->
