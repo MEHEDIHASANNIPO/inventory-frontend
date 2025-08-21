@@ -100,6 +100,10 @@ const router = createRouter({
         { path: '/customer/create', name: 'customerCreate', component: () => import('@/views/Customer/Create.vue'), meta: { title: 'Create Customer', permission: 'create-customer' } },
         { path: '/customer/edit/:id', name: 'customerEdit', component: () => import('@/views/Customer/Edit.vue'), meta: { title: 'Edit Customer', permission: 'edit-customer' } },
 
+        // Transfer Management Routes
+        { path: '/transfers', name: 'transfers', component: () => import('@/views/Transfer/Index.vue'), meta: { title: 'Transfer List', permission: 'index-transfer' } },
+        { path: '/transfer/create', name: 'transferCreate', component: () => import('@/views/Transfer/Create.vue'), meta: { title: 'Create Transfer', permission: 'create-transfer' } },
+
         // Backup Management Routes
         { path: '/backups', name: 'backups', component: () => import('@/views/Backup/Index.vue'), meta: { title: 'Backup List', permission: 'index-backup' } },
 
