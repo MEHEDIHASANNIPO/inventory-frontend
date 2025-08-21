@@ -102,6 +102,11 @@ const router = createRouter({
 
         // Backup Management Routes
         { path: '/backups', name: 'backups', component: () => import('@/views/Backup/Index.vue'), meta: { title: 'Backup List', permission: 'index-backup' } },
+
+        // User Management Routes
+        { path: '/users', name: 'users', component: () => import('@/views/User/Index.vue'), meta: { title: 'User List', permission: 'index-user' } },
+        { path: '/user/create', name: 'userCreate', component: () => import('@/views/User/Create.vue'), meta: { title: 'Create User', permission: 'create-user' } },
+        { path: '/user/edit/:id', name: 'userEdit', component: () => import('@/views/User/Edit.vue'), meta: { title: 'Edit User', permission: 'edit-user' } },
       ]
     },
 
