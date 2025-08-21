@@ -32,6 +32,8 @@ const login = () => {
                 icon: 'success',
                 timer: 1000,
                 title: loginStore.message
+            }).then(() => {
+                location.reload()
             })
 
             router.push({ name: 'dashboard' })
