@@ -18,7 +18,7 @@ const router = createRouter({
       children: [
 
         // Dashboard Route
-        { path: '/dashboard', name: 'dashboard', component: () => import('@/views/Dashboard.vue'), meta: { title: 'Dashboard' } },
+        { path: '/dashboard', name: 'dashboard', component: () => import('@/views/Dashboard.vue'), meta: { title: 'Dashboard', permission : 'access-dashboard' } },
 
         // System Setting Route
         { path: '/system-setting', name: 'systemSetting', component: () => import('@/views/SystemSetting/SystemSetting.vue'), meta: { title: 'General Setting', permission : 'general-setting' } },

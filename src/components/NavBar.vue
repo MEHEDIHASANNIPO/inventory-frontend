@@ -19,7 +19,7 @@ const toggleMenu = (menuName) => {
         <h2 class="text-center text-mainColor text-2xl font-bold">MHN <font-awesome-icon :icon="['fas', 'bolt']" class="text-lightColor text-3xl" /> Panel</h2>
 
         <!-- Dashboard -->
-        <router-link @click="navValue = false" :to="{name: 'dashboard'}" class="py-2.5 px-4 rounded-lg bg-gray-100 mt-12 text-sm font-medium text-gray-700 flex items-center gap-3"><font-awesome-icon :icon="['fas', 'house']" /> Dashboard</router-link>
+        <router-link v-if="$can('access', 'Dashboard')" @click="navValue = false" :to="{name: 'dashboard'}" class="py-2.5 px-4 rounded-lg bg-gray-100 mt-12 text-sm font-medium text-gray-700 flex items-center gap-3"><font-awesome-icon :icon="['fas', 'house']" /> Dashboard</router-link>
         <h4 class="text-sm font-semibold font-outfit mt-8 mb-6 text-gray-500">System Setting</h4>
 
         <ul class="space-y-6" id="mhnNav">

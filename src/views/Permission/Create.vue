@@ -52,7 +52,7 @@ onMounted(() => {
             <!-- Module Name -->
             <div>
                 <label for="module-name" class="block text-sm font-bold text-gray-700 mb-1.5">Module Name <span class="text-rose-400">*</span></label>
-                <vee-field as="select" name="module_id" id="module-name" v-model="formData.module_id" class="block w-full p-2.5 rounded-md border border-gray-200 bg-white cursor-pointer focus:outline-1 focus:outline-mainColor">
+                <vee-field as="select" name="module_id" id="module-name" v-model="formData.module_id" class="block w-full p-2.5 rounded-md bg-gray-200 border border-gray-200 cursor-pointer focus:outline-1 focus:outline-mainColor">
                     <option value="">Select A Module</option>
                     <option v-for="module in moduleStore.modules" :key="module.id" :value="module.id">
                         {{ module.module_name }}
@@ -64,7 +64,7 @@ onMounted(() => {
             <!-- Permission Name -->
             <div class="mt-4">
                 <label for="permission-name" class="block text-sm font-bold text-gray-700 mb-1.5">Permission Name <span class="text-rose-400">*</span></label>
-                <vee-field type="text" name="permission_name" id="permission-name" v-model="formData.permission_name" class="block w-full p-2.5 rounded-md border border-gray-200 bg-white focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Permission Name" required />
+                <vee-field type="text" name="permission_name" id="permission-name" v-model="formData.permission_name" class="block w-full p-2.5 rounded-md bg-gray-200 border border-gray-200 focus:outline-1 focus:outline-mainColor placeholder:text-sm" placeholder="Permission Name" required />
                 <ErrorMessage name="permission_name" class="text-xs text-rose-500 font-semibold my-2" />
             </div>
 
