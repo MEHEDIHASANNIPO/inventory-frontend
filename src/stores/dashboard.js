@@ -7,10 +7,14 @@ export const useDashboardStore = defineStore('dashboard', {
   state: () => ({
     rawData: [],
     notifications: [],
+    dashboardInfo: [],
+    months: [],
+    expense: [],
+    sales: [],
+    revenue: [],
     errors: [],
     message: [],
     swal: null,
-    router: null,
   }),
 
   getters: {
@@ -18,6 +22,29 @@ export const useDashboardStore = defineStore('dashboard', {
   },
 
   actions: {
+    // Dashboard Information
+    async getDashboardInfo() {
+      try {
+        const { data } = await inventoryAxiosClient.get('/dashboard');
+        this.rawData = data;
+        this.dashboardInfo = data.data;
+        this.months  = this.dashboardInfo.stats.map(item => item.month);
+        this.expense = this.dashboardInfo.stats.map(item => item.expense);
+        this.sales   = this.dashboardInfo.stats.map(item => item.sales);
+
+        this.revenue = this.dashboardInfo.stats.map(item => 
+          parseFloat(item.profit) - (parseFloat(item.salary) + parseFloat(item.expense))
+        );
+      } catch (error) {
+        this.errors = error.response?.data;
+        this.swal({
+          icon: 'error',
+          title: 'Something went wrong!',
+          text: error,
+        })
+      }
+    },
+
     // Get All Notifications
     async getNotifications() {
       try {
